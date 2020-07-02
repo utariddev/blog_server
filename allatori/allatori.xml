@@ -1,0 +1,14 @@
+<config>
+    <input>
+        <jar in="${project.build.finalName}.war" out="${project.build.finalName}-obfuscated.war"/>
+    </input>
+
+    <keep-names>
+        <class access="protected+">
+            <field access="protected+"/>
+            <method access="protected+"/>
+        </class>
+    </keep-names>
+
+    <property name="log-file" value="log.xml"/>
+</config>
