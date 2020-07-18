@@ -34,6 +34,10 @@ public class Engine {
         return databaseManager.getCategoryArticles(categoryName);
     }
 
+    public String getConstant(String key) throws ClassNotFoundException, SQLException {
+        return databaseManager.getConstant(key);
+    }
+
     public int getArticlesCount() throws ClassNotFoundException, SQLException {
         return databaseManager.getArticlesCount();
     }

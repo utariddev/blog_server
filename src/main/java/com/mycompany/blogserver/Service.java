@@ -41,6 +41,80 @@ public class Service {
     }
 
     @POST
+    @Path("/getConstant")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getConstant(String json) {
+        LoggerLib.Logger.print("getConstant");
+
+        Result res = new Result();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.createObjectNode();
+        String data = "";
+
+        try {
+            JsonNode node = objectMapper.readValue(json, JsonNode.class);
+
+            JsonNode keyNode = node.get("key");
+            if (keyNode != null) {
+                String key = node.get("key").textValue();
+                data = engine.getConstant(key);
+            } else {
+                throw new Exception("no key in json");
+            }
+
+            JsonNode resJsonNode = objectMapper.convertValue(res, JsonNode.class);
+            ((ObjectNode) rootNode).set("result", resJsonNode);
+
+            JsonNode userJsonNode = objectMapper.convertValue(data, JsonNode.class);
+            ((ObjectNode) rootNode).set("data", userJsonNode);
+
+            return rootNode.toString();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+
+            res.setCode(Constant.RESULT_CODE_GET_CONSTANT_CLASS_NOT_FOUND_EX);
+            res.setDesc(Constant.RESULT_DESC_GET_CONSTANT_CLASS_NOT_FOUND_EX + " : " + ex.getMessage());
+
+            JsonNode resJsonNode = objectMapper.convertValue(res, JsonNode.class);
+            ((ObjectNode) rootNode).set("result", resJsonNode);
+
+            return rootNode.toString();
+        } catch (SQLException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+
+            res.setCode(Constant.RESULT_CODE_GET_CONSTANT_SQL_EX);
+            res.setDesc(Constant.RESULT_DESC_GET_CONSTANT_SQL_EX + " : " + ex.getMessage());
+
+            JsonNode resJsonNode = objectMapper.convertValue(res, JsonNode.class);
+            ((ObjectNode) rootNode).set("result", resJsonNode);
+
+            return rootNode.toString();
+        } catch (IOException ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+
+            res.setCode(Constant.RESULT_CODE_GET_CONSTANT_IO_EX);
+            res.setDesc(Constant.RESULT_DESC_GET_CONSTANT_IO_EX + " : " + ex.getMessage());
+
+            JsonNode resJsonNode = objectMapper.convertValue(res, JsonNode.class);
+            ((ObjectNode) rootNode).set("result", resJsonNode);
+
+            return rootNode.toString();
+        } catch (Exception ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+
+            res.setCode(Constant.RESULT_CODE_GET_CONSTANT_EX);
+            res.setDesc(Constant.RESULT_DESC_GET_CONSTANT_EX + " : " + ex.getMessage());
+
+            JsonNode resJsonNode = objectMapper.convertValue(res, JsonNode.class);
+            ((ObjectNode) rootNode).set("result", resJsonNode);
+
+            return rootNode.toString();
+        }
+    }
+
+    @POST
     @Path("/getArticles")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

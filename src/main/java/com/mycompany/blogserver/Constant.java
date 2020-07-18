@@ -75,4 +75,16 @@ public class Constant {
     static final String RESULT_CODE_GET_ARTICLES_COUNT_SQL_EX = "120";
     static final String RESULT_DESC_GET_ARTICLES_COUNT_SQL_EX = "getArticlesCount sql exception";
 
+    static final String RESULT_CODE_GET_CONSTANT_CLASS_NOT_FOUND_EX = "121";
+    static final String RESULT_DESC_GET_CONSTANT_CLASS_NOT_FOUND_EX = "getConstant class not found exception";
+
+    static final String RESULT_CODE_GET_CONSTANT_SQL_EX = "122";
+    static final String RESULT_DESC_GET_CONSTANT_SQL_EX = "getConstant sql exception";
+
+    static final String RESULT_CODE_GET_CONSTANT_IO_EX = "123";
+    static final String RESULT_DESC_GET_CONSTANT_IO_EX = "getConstant io exception";
+
+    static final String RESULT_CODE_GET_CONSTANT_EX = "123";
+    static final String RESULT_DESC_GET_CONSTANT_EX = "getConstant exception";
+
 }

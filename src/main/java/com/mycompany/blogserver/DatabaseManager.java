@@ -71,6 +71,27 @@ public class DatabaseManager {
 //            return true;
 //        }
 //    }
+    public String getConstant(String key) throws SQLException, ClassNotFoundException {
+        LoggerLib.Logger.print("getConstant : " + key);
+        ArrayList<HashMap<String, String>> dataArray = new ArrayList<>();
+
+        Connection dbConnection = connectDB();
+
+        String query = "{CALL getconstant(?)}";
+        CallableStatement stmt = dbConnection.prepareCall(query);
+        stmt.setString(1, key);
+
+        ResultSet rs = stmt.executeQuery();
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        String value = "";
+        if (rs.next()) {
+            value = rs.getString(rsmd.getColumnName(1));
+        }
+        closeDB(dbConnection);
+        return value;
+    }
+
     public ArrayList<HashMap<String, String>> getArticles(String indicator) throws SQLException, ClassNotFoundException {
         LoggerLib.Logger.print("getArticles : " + indicator);
         ArrayList<HashMap<String, String>> dataArray = new ArrayList<>();
