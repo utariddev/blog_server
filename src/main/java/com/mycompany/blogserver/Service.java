@@ -51,7 +51,7 @@ public class Service {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.createObjectNode();
-        ArrayList<HashMap<String, String>> dataArray = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> dataArray = new ArrayList<>();
 
         try {
             JsonNode node = objectMapper.readValue(json, JsonNode.class);
@@ -125,7 +125,7 @@ public class Service {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.createObjectNode();
-        ArrayList<HashMap<String, String>> dataArray = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> dataArray;
 
         try {
             dataArray = engine.getMostReadArticles();
@@ -157,7 +157,7 @@ public class Service {
             ((ObjectNode) rootNode).set("result", resJsonNode);
 
             return rootNode.toString();
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
 
             res.setCode(Constant.RESULT_CODE_GET_MOST_READ_ARTICLES_EX);
@@ -181,7 +181,7 @@ public class Service {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.createObjectNode();
-        ArrayList<HashMap<String, String>> dataArray = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> dataArray = new ArrayList<>();
 
         try {
             JsonNode node = objectMapper.readValue(json, JsonNode.class);

@@ -223,12 +223,13 @@ public class DatabaseManager {
         ResultSet rs = stmt.executeQuery();
         ResultSetMetaData rsmd = rs.getMetaData();
 
+        int count = 0;
         if (rs.first()) {
             LoggerLib.Logger.print("column name : " + rsmd.getColumnName(1) + " - value : " + rs.getString(rsmd.getColumnName(1)));
 
-            int count = Integer.parseInt(rs.getString(rsmd.getColumnName(1)));
+            count = Integer.parseInt(rs.getString(rsmd.getColumnName(1)));
             closeDB(dbConnection);
-            return count;
+
         }
         closeDB(dbConnection);
         return 0;
