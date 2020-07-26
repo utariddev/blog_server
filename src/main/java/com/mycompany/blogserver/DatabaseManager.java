@@ -29,8 +29,7 @@ public class DatabaseManager {
         JDBC_DATABASE_CONNECTION_STRING += JDBC_DATABASE_SCHEME;
         JDBC_DATABASE_CONNECTION_STRING += "?reconnect=true&useUnicode=true&characterEncoding=UTF-8";
 
-        LoggerLib.Logger.print("JDBC_DATABASE_CONNECTION_STRING : " + JDBC_DATABASE_CONNECTION_STRING);
-
+//        LoggerLib.Logger.print("JDBC_DATABASE_CONNECTION_STRING : " + JDBC_DATABASE_CONNECTION_STRING);
         Class.forName(JDBC_DRIVER);
         Connection conn = DriverManager.getConnection(JDBC_DATABASE_CONNECTION_STRING, JDBC_DATABASE_USERNAME, JDBC_DATABASE_PASSWORD);
 
@@ -250,9 +249,8 @@ public class DatabaseManager {
 
             count = Integer.parseInt(rs.getString(rsmd.getColumnName(1)));
             closeDB(dbConnection);
-
         }
         closeDB(dbConnection);
-        return 0;
+        return count;
     }
 }
