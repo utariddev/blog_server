@@ -3,7 +3,7 @@ package org.utarid.server.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.utarid.server.dto.CategoryDTO;
+import org.utarid.server.dto.category.CategoryDTO;
 import org.utarid.server.repository.category.CategoryEntity;
 
 @Mapper

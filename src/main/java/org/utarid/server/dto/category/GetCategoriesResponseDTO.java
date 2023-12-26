@@ -1,6 +1,7 @@
-package org.utarid.server.dto;
+package org.utarid.server.dto.category;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.utarid.server.dto.Result;
 
 import java.util.List;
 
@@ -30,34 +31,5 @@ public class GetCategoriesResponseDTO {
 
     public void setData(List<CategoryDTO> data) {
         this.data = data;
-    }
-
-    public static class Result {
-        @JsonProperty("desc")
-        private String desc;
-
-        @JsonProperty("code")
-        private String code;
-
-        public Result(String desc, String code) {
-            this.desc = desc;
-            this.code = code;
-        }
-
-        public String getDesc() {
-            return desc;
-        }
-
-        public void setDesc(String desc) {
-            this.desc = desc;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
     }
 }

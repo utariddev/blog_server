@@ -1,4 +1,4 @@
-package org.utarid.server.repository;
+package org.utarid.server.repository.author;
 
 import jakarta.persistence.*;
 
