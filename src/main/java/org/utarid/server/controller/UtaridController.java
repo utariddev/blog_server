@@ -1,6 +1,7 @@
 package org.utarid.server.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.utarid.server.dto.GetCategoriesResponseDTO;
 import org.utarid.server.service.UtaridService;
 
 @RestController
@@ -21,5 +22,10 @@ public class UtaridController {
     @PostMapping("/testPost")
     public String testPost(@RequestBody String requestData) {
         return "testPost : " + requestData;
+    }
+
+    @PostMapping("/getCategories")
+    public GetCategoriesResponseDTO getCategories() {
+        return utaridService.getCategories();
     }
 }
