@@ -9,8 +9,10 @@ public class AuthorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "author_name")
     private String authorName;
 
+    @Column(name = "author_image")
     private String authorImage;
 
     public int getId() {

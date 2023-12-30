@@ -2,6 +2,8 @@ package org.utarid.server.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.utarid.server.dto.article.GetArticlesCountResponseDTO;
+import org.utarid.server.dto.article.GetArticlesRequestDTO;
+import org.utarid.server.dto.article.GetArticlesResponseDTO;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
 import org.utarid.server.service.UtaridService;
 
@@ -33,5 +35,10 @@ public class UtaridController {
     @PostMapping("/getArticlesCount")
     public GetArticlesCountResponseDTO getArticlesCount() {
         return utaridService.getArticlesCount();
+    }
+
+    @PostMapping("/getArticles")
+    public GetArticlesResponseDTO getArticles(@RequestBody GetArticlesRequestDTO getArticlesRequestDTO) {
+        return utaridService.getArticles(getArticlesRequestDTO);
     }
 }

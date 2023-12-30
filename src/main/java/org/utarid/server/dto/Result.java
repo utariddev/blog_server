@@ -14,6 +14,10 @@ public class Result {
         this.code = code;
     }
 
+    public static Result successResult() {
+        return new Result("success", "1");
+    }
+
     public String getDesc() {
         return desc;
     }
