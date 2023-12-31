@@ -59,4 +59,11 @@ public class UtaridService implements IUtaridService {
         ArticleDTO articleDTO = CategoryMapper.INSTANCE.articleEntityToArticleDTO(articleEntity);
         return new GetArticleResponseDTO(Result.successResult(), articleDTO);
     }
+
+    @Override
+    public GetCategoryArticlesResponseDTO getCategoryArticles(GetCategoryArticlesRequestDTO getCategoryArticlesRequestDTO) {
+        List<ArticleEntity> articleEntities = articleRepository.findByCategoryName(getCategoryArticlesRequestDTO.getCategoryName());
+        List<ArticleDTO> articleDTOList = articleEntities.stream().map(CategoryMapper.INSTANCE::articleEntityToArticleDTO).toList();
+        return new GetCategoryArticlesResponseDTO(Result.successResult(), articleDTOList);
+    }
 }

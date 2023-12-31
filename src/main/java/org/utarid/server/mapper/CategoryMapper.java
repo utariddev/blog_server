@@ -21,6 +21,13 @@ public interface CategoryMapper {
 
 
     @Mapping(source = "articleCategory.id", target = "articleCategory")
+    @Mapping(source = "articleCategory.blogCategoryName", target = "blogCategoryName")
     @Mapping(source = "articleAuthor.id", target = "articleAuthor")
+    @Mapping(source = "articleAuthor.authorName", target = "authorName")
+    @Mapping(source = "articleAuthor.authorImage", target = "authorImage")
+    @Mapping(source = "articleActive", target = "isActive")
+    @Mapping(source = "articleDate", target = "articleDate", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @Mapping(source = "articleUpdateDate", target = "articleUpdateDate", dateFormat = "yyyy-MM-dd")
+    @Mapping(source = "articleCategory.blogCategoryImage.id", target = "blogCategoryImageId")
     ArticleDTO articleEntityToArticleDTO(ArticleEntity entity);
 }

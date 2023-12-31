@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import org.utarid.server.dto.article.*;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
 import org.utarid.server.service.IUtaridService;
-import org.utarid.server.service.UtaridService;
 
 @RestController
 @RequestMapping("/rest/message")
@@ -44,5 +43,10 @@ public class UtaridController {
     @PostMapping("/getArticle")
     public GetArticleResponseDTO getArticle(@RequestBody GetArticleRequestDTO getArticleRequestDTO) {
         return utaridService.getArticle(getArticleRequestDTO);
+    }
+
+    @PostMapping("/getCategoryArticles")
+    public GetCategoryArticlesResponseDTO getCategoryArticles(@RequestBody GetCategoryArticlesRequestDTO getArticleRequestDTO) {
+        return utaridService.getCategoryArticles(getArticleRequestDTO);
     }
 }

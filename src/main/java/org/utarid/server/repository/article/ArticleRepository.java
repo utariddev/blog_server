@@ -34,4 +34,13 @@ public interface ArticleRepository extends JpaRepository<AuthorEntity, Integer> 
             "AND BC.blogCategoryImage.id = BI.id " +
             "AND BAR.articleWebTitle = :pArticleTitle")
     ArticleEntity findArticlesByWebTitle(@Param("pArticleTitle") String pArticleTitle);
+
+    @Query("SELECT BAR FROM ArticleEntity BAR " +
+            "JOIN AuthorEntity BAU ON BAR.articleAuthor.id = BAU.id " +
+            "JOIN CategoryEntity BC ON BAR.articleCategory.id = BC.id " +
+            "JOIN ImageEntity BI ON BC.blogCategoryImage.id = BI.id " +
+            "WHERE BC.blogCategoryName = :pCategoryName " +
+            "AND BAR.articleActive = '1' " +
+            "ORDER BY BAR.id DESC")
+    List<ArticleEntity> findByCategoryName(@Param("pCategoryName") String pCategoryName);
 }

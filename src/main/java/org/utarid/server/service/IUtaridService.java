@@ -12,4 +12,6 @@ public interface IUtaridService {
     GetArticlesResponseDTO getArticles(GetArticlesRequestDTO getArticlesRequestDTO);
 
     GetArticleResponseDTO getArticle(GetArticleRequestDTO getArticleRequestDTO);
+
+    GetCategoryArticlesResponseDTO getCategoryArticles(GetCategoryArticlesRequestDTO getCategoryArticlesRequestDTO);
 }
