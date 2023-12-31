@@ -3,6 +3,10 @@ package org.utarid.server.controller;
 import org.springframework.web.bind.annotation.*;
 import org.utarid.server.dto.article.*;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
+import org.utarid.server.dto.category.GetCategoryArticlesRequestDTO;
+import org.utarid.server.dto.category.GetCategoryArticlesResponseDTO;
+import org.utarid.server.dto.constant.GetConstantRequestDTO;
+import org.utarid.server.dto.constant.GetConstantResponseDTO;
 import org.utarid.server.service.IUtaridService;
 
 @RestController
@@ -48,5 +52,10 @@ public class UtaridController {
     @PostMapping("/getCategoryArticles")
     public GetCategoryArticlesResponseDTO getCategoryArticles(@RequestBody GetCategoryArticlesRequestDTO getArticleRequestDTO) {
         return utaridService.getCategoryArticles(getArticleRequestDTO);
+    }
+
+    @PostMapping("/getConstant")
+    public GetConstantResponseDTO getConstant(@RequestBody GetConstantRequestDTO getConstantRequestDTO) {
+        return utaridService.getConstant(getConstantRequestDTO);
     }
 }

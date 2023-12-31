@@ -1,4 +1,4 @@
-package org.utarid.server.dto.article;
+package org.utarid.server.dto.category;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

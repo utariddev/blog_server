@@ -1,18 +1,16 @@
-package org.utarid.server.dto.article;
+package org.utarid.server.dto.constant;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.utarid.server.dto.Result;
 
-import java.util.List;
-
-public class GetCategoryArticlesResponseDTO {
+public class GetConstantResponseDTO {
 
     @JsonProperty("result")
     private Result result;
     @JsonProperty("data")
-    private List<ArticleDTO> data;
+    private String data;
 
-    public GetCategoryArticlesResponseDTO(Result result, List<ArticleDTO> data) {
+    public GetConstantResponseDTO(Result result, String data) {
         this.result = result;
         this.data = data;
     }
@@ -25,13 +23,11 @@ public class GetCategoryArticlesResponseDTO {
         this.result = result;
     }
 
-    public List<ArticleDTO> getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(List<ArticleDTO> data) {
+    public void setData(String data) {
         this.data = data;
     }
 }
-
-
