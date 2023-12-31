@@ -5,10 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.utarid.server.dto.Result;
-import org.utarid.server.dto.article.ArticleDTO;
-import org.utarid.server.dto.article.GetArticlesCountResponseDTO;
-import org.utarid.server.dto.article.GetArticlesRequestDTO;
-import org.utarid.server.dto.article.GetArticlesResponseDTO;
+import org.utarid.server.dto.article.*;
 import org.utarid.server.dto.category.CategoryDTO;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
 import org.utarid.server.mapper.CategoryMapper;
@@ -43,9 +40,19 @@ public class UtaridService {
 
     public GetArticlesResponseDTO getArticles(GetArticlesRequestDTO getArticlesRequestDTO) {
         Pageable pageable = PageRequest.of(getArticlesRequestDTO.getIndicator(), 3, Sort.by("articleUpdateDate").descending());
-        List<ArticleEntity> t = articleRepository.findArticlesWithAuthorAndCategory(pageable);
+        List<ArticleEntity> articleEntities = articleRepository.findArticlesWithAuthorAndCategory(pageable);
 
-        List<ArticleDTO> categoryDTOList = t.stream().map(CategoryMapper.INSTANCE::articleEntityToArticleDTO).toList();
-        return new GetArticlesResponseDTO(Result.successResult(), categoryDTOList);
+        List<ArticleDTO> articleDTOList = articleEntities.stream().map(CategoryMapper.INSTANCE::articleEntityToArticleDTO).toList();
+        return new GetArticlesResponseDTO(Result.successResult(), articleDTOList);
+    }
+
+    public GetArticleResponseDTO getArticle(GetArticleRequestDTO getArticleRequestDTO) {
+        articleRepository.incrementArticleRead(getArticleRequestDTO.getArticleID());
+        ArticleEntity articleEntity = articleRepository.findArticlesByWebTitle(getArticleRequestDTO.getArticleID());
+        if (articleEntity == null) {
+            return new GetArticleResponseDTO(new Result("no article found", "113"), null);
+        }
+        ArticleDTO articleDTO = CategoryMapper.INSTANCE.articleEntityToArticleDTO(articleEntity);
+        return new GetArticleResponseDTO(Result.successResult(), articleDTO);
     }
 }
