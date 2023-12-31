@@ -3,15 +3,16 @@ package org.utarid.server.controller;
 import org.springframework.web.bind.annotation.*;
 import org.utarid.server.dto.article.*;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
+import org.utarid.server.service.IUtaridService;
 import org.utarid.server.service.UtaridService;
 
 @RestController
 @RequestMapping("/rest/message")
 public class UtaridController {
 
-    private final UtaridService utaridService;
+    private final IUtaridService utaridService;
 
-    public UtaridController(UtaridService utaridService) {
+    public UtaridController(IUtaridService utaridService) {
         this.utaridService = utaridService;
     }
 
@@ -43,7 +44,5 @@ public class UtaridController {
     @PostMapping("/getArticle")
     public GetArticleResponseDTO getArticle(@RequestBody GetArticleRequestDTO getArticleRequestDTO) {
         return utaridService.getArticle(getArticleRequestDTO);
-
-        //return utaridService.getArticle(getArticlesRequestDTO);
     }
 }

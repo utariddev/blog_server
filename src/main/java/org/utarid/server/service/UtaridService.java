@@ -17,7 +17,7 @@ import org.utarid.server.repository.category.CategoryRepository;
 import java.util.List;
 
 @Service
-public class UtaridService {
+public class UtaridService implements IUtaridService {
 
     private final CategoryRepository categoryRepository;
     private final ArticleRepository articleRepository;
@@ -27,17 +27,20 @@ public class UtaridService {
         this.articleRepository = articleRepository;
     }
 
+    @Override
     public GetCategoriesResponseDTO getCategories() {
         List<CategoryEntity> categoryEntityList = categoryRepository.findActiveCategoriesWithImages();
         List<CategoryDTO> categoryDTOList = categoryEntityList.stream().map(CategoryMapper.INSTANCE::categoryEntityToCategoryDTO).toList();
         return new GetCategoriesResponseDTO(Result.successResult(), categoryDTOList);
     }
 
+    @Override
     public GetArticlesCountResponseDTO getArticlesCount() {
         long count = articleRepository.countActiveArticles();
         return new GetArticlesCountResponseDTO(Result.successResult(), new GetArticlesCountResponseDTO.Count(String.valueOf(count)));
     }
 
+    @Override
     public GetArticlesResponseDTO getArticles(GetArticlesRequestDTO getArticlesRequestDTO) {
         Pageable pageable = PageRequest.of(getArticlesRequestDTO.getIndicator(), 3, Sort.by("articleUpdateDate").descending());
         List<ArticleEntity> articleEntities = articleRepository.findArticlesWithAuthorAndCategory(pageable);
@@ -46,6 +49,7 @@ public class UtaridService {
         return new GetArticlesResponseDTO(Result.successResult(), articleDTOList);
     }
 
+    @Override
     public GetArticleResponseDTO getArticle(GetArticleRequestDTO getArticleRequestDTO) {
         articleRepository.incrementArticleRead(getArticleRequestDTO.getArticleID());
         ArticleEntity articleEntity = articleRepository.findArticlesByWebTitle(getArticleRequestDTO.getArticleID());
