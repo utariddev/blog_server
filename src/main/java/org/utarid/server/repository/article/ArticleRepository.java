@@ -42,5 +42,13 @@ public interface ArticleRepository extends JpaRepository<AuthorEntity, Integer> 
             "WHERE BC.blogCategoryName = :pCategoryName " +
             "AND BAR.articleActive = '1' " +
             "ORDER BY BAR.id DESC")
-    List<ArticleEntity> findByCategoryName(@Param("pCategoryName") String pCategoryName);
+    List<ArticleEntity> findArticlesByCategory(@Param("pCategoryName") String pCategoryName);
+
+    @Query("SELECT BAR " +
+            "FROM ArticleEntity BAR " +
+            "JOIN AuthorEntity BAU ON BAR.articleAuthor.id = BAU.id " +
+            "JOIN CategoryEntity BC ON BAR.articleCategory.id = BC.id " +
+            "JOIN ImageEntity BI ON BC.blogCategoryImage.id = BI.id " +
+            "ORDER BY BAR.articleRead DESC")
+    List<ArticleEntity> findMostReadArticles(Pageable pageable);
 }

@@ -20,4 +20,6 @@ public interface IUtaridService {
     GetCategoryArticlesResponseDTO getCategoryArticles(GetCategoryArticlesRequestDTO getCategoryArticlesRequestDTO);
 
     GetConstantResponseDTO getConstant(GetConstantRequestDTO getConstantRequestDTO);
+
+    GetMostReadArticlesResponseDTO getMostReadArticles();
 }

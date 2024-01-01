@@ -58,4 +58,9 @@ public class UtaridController {
     public GetConstantResponseDTO getConstant(@RequestBody GetConstantRequestDTO getConstantRequestDTO) {
         return utaridService.getConstant(getConstantRequestDTO);
     }
+
+    @PostMapping("/getMostReadArticles")
+    public GetMostReadArticlesResponseDTO getConstant() {
+        return utaridService.getMostReadArticles();
+    }
 }

@@ -71,7 +71,7 @@ public class UtaridService implements IUtaridService {
 
     @Override
     public GetCategoryArticlesResponseDTO getCategoryArticles(GetCategoryArticlesRequestDTO getCategoryArticlesRequestDTO) {
-        List<ArticleEntity> articleEntities = articleRepository.findByCategoryName(getCategoryArticlesRequestDTO.getCategoryName());
+        List<ArticleEntity> articleEntities = articleRepository.findArticlesByCategory(getCategoryArticlesRequestDTO.getCategoryName());
         List<ArticleDTO> articleDTOList = articleEntities.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
         return new GetCategoryArticlesResponseDTO(Result.successResult(), articleDTOList);
     }
@@ -84,5 +84,13 @@ public class UtaridService implements IUtaridService {
         }
         ConstantDTO constantDTO = UtaridMapper.INSTANCE.constantEntityToConstantDTO(constantEntity);
         return new GetConstantResponseDTO(Result.successResult(), constantDTO.getValue());
+    }
+
+    @Override
+    public GetMostReadArticlesResponseDTO getMostReadArticles() {
+        Pageable pageable = PageRequest.of(0, 4);
+        List<ArticleEntity> mostReadArticles = articleRepository.findMostReadArticles(pageable);
+        List<ArticleDTO> articleDTOList = mostReadArticles.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
+        return new GetMostReadArticlesResponseDTO(Result.successResult(), articleDTOList);
     }
 }
