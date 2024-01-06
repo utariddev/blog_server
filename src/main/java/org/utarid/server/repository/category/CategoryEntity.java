@@ -8,7 +8,7 @@ import org.utarid.server.repository.image.ImageEntity;
 public class CategoryEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "blog_category_name")

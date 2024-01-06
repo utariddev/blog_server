@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class ImageEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "image_path")

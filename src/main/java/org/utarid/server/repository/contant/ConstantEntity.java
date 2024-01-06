@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class ConstantEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "key", nullable = false, unique = true)
