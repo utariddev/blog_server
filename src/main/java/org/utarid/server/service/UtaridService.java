@@ -20,7 +20,10 @@ import org.utarid.server.repository.category.CategoryEntity;
 import org.utarid.server.repository.category.CategoryRepository;
 import org.utarid.server.repository.contant.ConstantEntity;
 import org.utarid.server.repository.contant.ConstantRepository;
+import org.utarid.server.repository.stats.StatsEntity;
+import org.utarid.server.repository.stats.StatsRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,15 +32,25 @@ public class UtaridService implements IUtaridService {
     private final CategoryRepository categoryRepository;
     private final ArticleRepository articleRepository;
     private final ConstantRepository constantRepository;
+    private final StatsRepository statsRepository;
 
-    public UtaridService(CategoryRepository categoryRepository, ArticleRepository articleRepository, ConstantRepository constantRepository) {
+    public UtaridService(CategoryRepository categoryRepository, ArticleRepository articleRepository, ConstantRepository constantRepository, StatsRepository statsRepository) {
         this.categoryRepository = categoryRepository;
         this.articleRepository = articleRepository;
         this.constantRepository = constantRepository;
+        this.statsRepository = statsRepository;
+    }
+
+    private void saveStat(int type) {
+        StatsEntity entity = new StatsEntity();
+        entity.setStatsDate(LocalDateTime.now());
+        entity.setStatsTypeID(type);
+        statsRepository.save(entity);
     }
 
     @Override
     public GetCategoriesResponseDTO getCategories() {
+        saveStat(1);
         List<CategoryEntity> categoryEntityList = categoryRepository.findActiveCategoriesWithImages();
         List<CategoryDTO> categoryDTOList = categoryEntityList.stream().map(UtaridMapper.INSTANCE::categoryEntityToCategoryDTO).toList();
         return new GetCategoriesResponseDTO(Result.successResult(), categoryDTOList);
@@ -45,21 +58,23 @@ public class UtaridService implements IUtaridService {
 
     @Override
     public GetArticlesCountResponseDTO getArticlesCount() {
+        saveStat(2);
         long count = articleRepository.countActiveArticles();
         return new GetArticlesCountResponseDTO(Result.successResult(), new GetArticlesCountResponseDTO.Count(String.valueOf(count)));
     }
 
     @Override
     public GetArticlesResponseDTO getArticles(GetArticlesRequestDTO getArticlesRequestDTO) {
+        saveStat(3);
         Pageable pageable = PageRequest.of(getArticlesRequestDTO.getIndicator(), 3, Sort.by("articleUpdateDate").descending());
         List<ArticleEntity> articleEntities = articleRepository.findArticlesWithAuthorAndCategory(pageable);
-
         List<ArticleDTO> articleDTOList = articleEntities.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
         return new GetArticlesResponseDTO(Result.successResult(), articleDTOList);
     }
 
     @Override
     public GetArticleResponseDTO getArticle(GetArticleRequestDTO getArticleRequestDTO) {
+        saveStat(4);
         articleRepository.incrementArticleRead(getArticleRequestDTO.getArticleID());
         ArticleEntity articleEntity = articleRepository.findArticlesByWebTitle(getArticleRequestDTO.getArticleID());
         if (articleEntity == null) {
@@ -71,6 +86,7 @@ public class UtaridService implements IUtaridService {
 
     @Override
     public GetCategoryArticlesResponseDTO getCategoryArticles(GetCategoryArticlesRequestDTO getCategoryArticlesRequestDTO) {
+        saveStat(5);
         List<ArticleEntity> articleEntities = articleRepository.findArticlesByCategory(getCategoryArticlesRequestDTO.getCategoryName());
         List<ArticleDTO> articleDTOList = articleEntities.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
         return new GetCategoryArticlesResponseDTO(Result.successResult(), articleDTOList);
@@ -78,6 +94,7 @@ public class UtaridService implements IUtaridService {
 
     @Override
     public GetConstantResponseDTO getConstant(GetConstantRequestDTO getConstantRequestDTO) {
+        saveStat(6);
         ConstantEntity constantEntity = constantRepository.getConstant(getConstantRequestDTO.getKey());
         if (constantEntity == null) {
             return new GetConstantResponseDTO(Result.successResult(), "");
@@ -88,6 +105,7 @@ public class UtaridService implements IUtaridService {
 
     @Override
     public GetMostReadArticlesResponseDTO getMostReadArticles() {
+        saveStat(7);
         Pageable pageable = PageRequest.of(0, 4);
         List<ArticleEntity> mostReadArticles = articleRepository.findMostReadArticles(pageable);
         List<ArticleDTO> articleDTOList = mostReadArticles.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
