@@ -96,3 +96,6 @@ target
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+
+!gradle/wrapper/gradle-wrapper.jar
+
