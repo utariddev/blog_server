@@ -23,7 +23,7 @@ import org.utarid.server.repository.contant.ConstantRepository;
 import org.utarid.server.repository.stats.StatsEntity;
 import org.utarid.server.repository.stats.StatsRepository;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.List;
 
 @Service
@@ -43,7 +43,9 @@ public class UtaridService implements IUtaridService {
 
     private void saveStat(int type) {
         StatsEntity entity = new StatsEntity();
-        entity.setStatsDate(LocalDateTime.now());
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        entity.setStatsDate(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
+        entity.setStatsTimeZone(zonedDateTime.getOffset().toString());
         entity.setStatsTypeID(type);
         statsRepository.save(entity);
     }

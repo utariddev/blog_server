@@ -3,7 +3,7 @@ package org.utarid.server.repository.stats;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "blog_stats")
@@ -19,6 +19,8 @@ public class StatsEntity {
     @Column(name = "stats_type_id")
     private int statsTypeID;
 
+    @Column(name = "stats_time_zone")
+    private String statsTimeZone;
 
     public int getId() {
         return id;
@@ -42,5 +44,13 @@ public class StatsEntity {
 
     public void setStatsTypeID(int statsTypeID) {
         this.statsTypeID = statsTypeID;
+    }
+
+    public String getStatsTimeZone() {
+        return statsTimeZone;
+    }
+
+    public void setStatsTimeZone(String statsTimeZone) {
+        this.statsTimeZone = statsTimeZone;
     }
 }
