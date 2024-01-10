@@ -1,4 +1,4 @@
-package org.utarid.server.repository.contant;
+package org.utarid.server.repository.constant;
 
 import jakarta.persistence.*;
 
@@ -13,7 +13,7 @@ public class ConstantEntity {
     @Column(name = "key", nullable = false, unique = true)
     private String key;
 
-    @Column(name = "value", columnDefinition = "longtext")
+    @Column(name = "value", columnDefinition = "VARCHAR(5000)")
     private String value;
 
     public int getId() {

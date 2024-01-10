@@ -8,7 +8,7 @@ import org.utarid.server.dto.category.CategoryDTO;
 import org.utarid.server.dto.constant.ConstantDTO;
 import org.utarid.server.repository.article.ArticleEntity;
 import org.utarid.server.repository.category.CategoryEntity;
-import org.utarid.server.repository.contant.ConstantEntity;
+import org.utarid.server.repository.constant.ConstantEntity;
 
 @Mapper
 public interface UtaridMapper {

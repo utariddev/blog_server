@@ -16,7 +16,7 @@ public class ArticleEntity {
     @Column(name = "article_title")
     private String articleTitle;
 
-    @Column(name = "article_text", columnDefinition = "LONGTEXT")
+    @Column(name = "article_text", columnDefinition = "VARCHAR(15000)")
     private String articleText;
 
     @Column(name = "article_date")
@@ -45,10 +45,10 @@ public class ArticleEntity {
     @Column(name = "article_active")
     private String articleActive;
 
-    @Column(name = "article_mobile_markdown", columnDefinition = "LONGTEXT")
+    @Column(name = "article_mobile_markdown", columnDefinition = "VARCHAR(10)")
     private String articleMobileMarkdown;
 
-    @Column(name = "article_mobile_active", columnDefinition = "LONGTEXT")
+    @Column(name = "article_mobile_active")
     private String articleMobileActive;
 
     @Column(name = "article_web_title")
