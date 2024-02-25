@@ -1,5 +1,6 @@
 package org.utarid.server.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.utarid.server.dto.article.*;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
@@ -20,47 +21,47 @@ public class UtaridController {
     }
 
     @GetMapping("/testGet")
-    public String testGet() {
-        return "testGet";
+    public ResponseEntity<String> testGet() {
+        return ResponseEntity.ok("testGet");
     }
 
     @PostMapping("/testPost")
-    public String testPost(@RequestBody String requestData) {
-        return "testPost : " + requestData;
+    public ResponseEntity<String> testPost(@RequestBody String requestData) {
+        return ResponseEntity.ok("testPost :" + requestData);
     }
 
     @PostMapping("/getCategories")
-    public GetCategoriesResponseDTO getCategories() {
-        return utaridService.getCategories();
+    public ResponseEntity<GetCategoriesResponseDTO> getCategories() {
+        return ResponseEntity.ok(utaridService.getCategories());
     }
 
     @PostMapping("/getArticlesCount")
-    public GetArticlesCountResponseDTO getArticlesCount() {
-        return utaridService.getArticlesCount();
+    public ResponseEntity<GetArticlesCountResponseDTO> getArticlesCount() {
+        return ResponseEntity.ok(utaridService.getArticlesCount());
     }
 
     @PostMapping("/getArticles")
-    public GetArticlesResponseDTO getArticles(@RequestBody GetArticlesRequestDTO getArticlesRequestDTO) {
-        return utaridService.getArticles(getArticlesRequestDTO);
+    public ResponseEntity<GetArticlesResponseDTO> getArticles(@RequestBody GetArticlesRequestDTO getArticlesRequestDTO) {
+        return ResponseEntity.ok(utaridService.getArticles(getArticlesRequestDTO));
     }
 
     @PostMapping("/getArticle")
-    public GetArticleResponseDTO getArticle(@RequestBody GetArticleRequestDTO getArticleRequestDTO) {
-        return utaridService.getArticle(getArticleRequestDTO);
+    public ResponseEntity<GetArticleResponseDTO> getArticle(@RequestBody GetArticleRequestDTO getArticleRequestDTO) {
+        return ResponseEntity.ok(utaridService.getArticle(getArticleRequestDTO));
     }
 
     @PostMapping("/getCategoryArticles")
-    public GetCategoryArticlesResponseDTO getCategoryArticles(@RequestBody GetCategoryArticlesRequestDTO getArticleRequestDTO) {
-        return utaridService.getCategoryArticles(getArticleRequestDTO);
+    public ResponseEntity<GetCategoryArticlesResponseDTO> getCategoryArticles(@RequestBody GetCategoryArticlesRequestDTO getArticleRequestDTO) {
+        return ResponseEntity.ok(utaridService.getCategoryArticles(getArticleRequestDTO));
     }
 
     @PostMapping("/getConstant")
-    public GetConstantResponseDTO getConstant(@RequestBody GetConstantRequestDTO getConstantRequestDTO) {
-        return utaridService.getConstant(getConstantRequestDTO);
+    public ResponseEntity<GetConstantResponseDTO> getConstant(@RequestBody GetConstantRequestDTO getConstantRequestDTO) {
+        return ResponseEntity.ok(utaridService.getConstant(getConstantRequestDTO));
     }
 
     @PostMapping("/getMostReadArticles")
-    public GetMostReadArticlesResponseDTO getConstant() {
-        return utaridService.getMostReadArticles();
+    public ResponseEntity<GetMostReadArticlesResponseDTO> getConstant() {
+        return ResponseEntity.ok(utaridService.getMostReadArticles());
     }
 }
