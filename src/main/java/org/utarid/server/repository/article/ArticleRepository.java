@@ -5,11 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.utarid.server.repository.author.AuthorEntity;
 
 import java.util.List;
 
+@Repository
 public interface ArticleRepository extends JpaRepository<AuthorEntity, Integer> {
 
     @Query("SELECT COUNT(b) FROM ArticleEntity b WHERE b.articleActive = '1'")

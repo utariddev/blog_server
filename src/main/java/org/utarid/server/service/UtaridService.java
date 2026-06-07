@@ -71,9 +71,10 @@ public class UtaridService implements IUtaridService {
     @Override
     public GetArticlesResponseDTO getArticles(GetArticlesRequestDTO getArticlesRequestDTO) {
         saveStat("3");
-        Pageable pageable = PageRequest.of(getArticlesRequestDTO.getIndicator(), 3, Sort.by("articleUpdateDate").descending());
+        Pageable pageable = PageRequest.of(getArticlesRequestDTO.getIndicator(), 4, Sort.by("articleUpdateDate").descending());
         List<ArticleEntity> articleEntities = articleRepository.findArticlesWithAuthorAndCategory(pageable);
-        List<ArticleDTO> articleDTOList = articleEntities.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
+        List<ArticleDTO> articleDTOList = articleEntities.stream().map(
+                articleEntity -> UtaridMapper.INSTANCE.articleEntityToArticleDTO(articleEntity, false)).toList();
         return new GetArticlesResponseDTO(Result.successResult(), articleDTOList);
     }
 
@@ -85,7 +86,7 @@ public class UtaridService implements IUtaridService {
         if (articleEntity == null) {
             return new GetArticleResponseDTO(new Result("no article found", "113"), null);
         }
-        ArticleDTO articleDTO = UtaridMapper.INSTANCE.articleEntityToArticleDTO(articleEntity);
+        ArticleDTO articleDTO = UtaridMapper.INSTANCE.articleEntityToArticleDTO(articleEntity, true);
         return new GetArticleResponseDTO(Result.successResult(), articleDTO);
     }
 
@@ -93,7 +94,8 @@ public class UtaridService implements IUtaridService {
     public GetCategoryArticlesResponseDTO getCategoryArticles(GetCategoryArticlesRequestDTO getCategoryArticlesRequestDTO) {
         saveStat("5-" + getCategoryArticlesRequestDTO.getCategoryName());
         List<ArticleEntity> articleEntities = articleRepository.findArticlesByCategory(getCategoryArticlesRequestDTO.getCategoryName());
-        List<ArticleDTO> articleDTOList = articleEntities.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
+        List<ArticleDTO> articleDTOList = articleEntities.stream().map(
+                articleEntity -> UtaridMapper.INSTANCE.articleEntityToArticleDTO(articleEntity, false)).toList();
         return new GetCategoryArticlesResponseDTO(Result.successResult(), articleDTOList);
     }
 
@@ -113,7 +115,8 @@ public class UtaridService implements IUtaridService {
         saveStat("7");
         Pageable pageable = PageRequest.of(0, 4);
         List<ArticleEntity> mostReadArticles = articleRepository.findMostReadArticles(pageable);
-        List<ArticleDTO> articleDTOList = mostReadArticles.stream().map(UtaridMapper.INSTANCE::articleEntityToArticleDTO).toList();
+        List<ArticleDTO> articleDTOList = mostReadArticles.stream().map(
+                articleEntity -> UtaridMapper.INSTANCE.articleEntityToArticleDTO(articleEntity, false)).toList();
         return new GetMostReadArticlesResponseDTO(Result.successResult(), articleDTOList);
     }
 }

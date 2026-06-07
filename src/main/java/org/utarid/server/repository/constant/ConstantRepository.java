@@ -3,7 +3,9 @@ package org.utarid.server.repository.constant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ConstantRepository extends JpaRepository<ConstantEntity, Integer> {
 
     @Query("SELECT b FROM ConstantEntity b WHERE b.key = :pConstantKey")

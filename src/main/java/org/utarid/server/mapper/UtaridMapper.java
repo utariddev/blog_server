@@ -1,7 +1,9 @@
 package org.utarid.server.mapper;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import org.utarid.server.dto.article.ArticleDTO;
 import org.utarid.server.dto.category.CategoryDTO;
@@ -21,16 +23,24 @@ public interface UtaridMapper {
     @Mapping(source = "blogCategoryImage.id", target = "blogCategoryImageId")
     CategoryDTO categoryEntityToCategoryDTO(CategoryEntity entity);
 
-    @Mapping(source = "articleCategory.id", target = "articleCategory")
-    @Mapping(source = "articleCategory.blogCategoryName", target = "blogCategoryName")
-    @Mapping(source = "articleAuthor.id", target = "articleAuthor")
-    @Mapping(source = "articleAuthor.authorName", target = "authorName")
-    @Mapping(source = "articleAuthor.authorImage", target = "authorImage")
-    @Mapping(source = "articleActive", target = "isActive")
-    @Mapping(source = "articleDate", target = "articleDate", dateFormat = "yyyy-MM-dd HH:mm:ss")
-    @Mapping(source = "articleUpdateDate", target = "articleUpdateDate", dateFormat = "yyyy-MM-dd")
-    @Mapping(source = "articleCategory.blogCategoryImage.id", target = "blogCategoryImageId")
-    ArticleDTO articleEntityToArticleDTO(ArticleEntity entity);
+    @Mapping(ignore = true, target = "articleText")
+    @Mapping(source = "entity.articleCategory.id", target = "articleCategory")
+    @Mapping(source = "entity.articleCategory.blogCategoryName", target = "blogCategoryName")
+    @Mapping(source = "entity.articleAuthor.id", target = "articleAuthor")
+    @Mapping(source = "entity.articleAuthor.authorName", target = "authorName")
+    @Mapping(source = "entity.articleAuthor.authorImage", target = "authorImage")
+    @Mapping(source = "entity.articleActive", target = "isActive")
+    @Mapping(source = "entity.articleDate", target = "articleDate", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @Mapping(source = "entity.articleUpdateDate", target = "articleUpdateDate", dateFormat = "yyyy-MM-dd")
+    @Mapping(source = "entity.articleCategory.blogCategoryImage.id", target = "blogCategoryImageId")
+    ArticleDTO articleEntityToArticleDTO(ArticleEntity entity, boolean includeText);
+
+    @AfterMapping
+    default void handlePassword(ArticleEntity user, @MappingTarget ArticleDTO dto, boolean includeText) {
+        if (includeText) {
+            dto.setArticleText(user.getArticleText());
+        }
+    }
 
 
     ConstantDTO constantEntityToConstantDTO(ConstantEntity entity);
