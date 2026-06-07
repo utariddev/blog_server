@@ -61,7 +61,7 @@ public class UtaridController {
     }
 
     @PostMapping("/getMostReadArticles")
-    public ResponseEntity<GetMostReadArticlesResponseDTO> getConstant() {
+    public ResponseEntity<GetMostReadArticlesResponseDTO> getMostReadArticles() {
         return ResponseEntity.ok(utaridService.getMostReadArticles());
     }
 }

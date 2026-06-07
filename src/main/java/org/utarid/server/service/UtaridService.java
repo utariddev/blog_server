@@ -46,9 +46,9 @@ public class UtaridService implements IUtaridService {
 
     private void saveStat(String type) {
         StatsEntity entity = new StatsEntity();
-        ZonedDateTime zonedDateTime = ZonedDateTime.now();
-        entity.setStatsDate(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
-        entity.setStatsTimeZone(zonedDateTime.getOffset().toString());
+        ZonedDateTime now = ZonedDateTime.now();
+        entity.setStatsDate(now.toLocalDateTime());
+        entity.setStatsTimeZone(now.getOffset().toString());
         entity.setStatsTypeID(type);
         statsRepository.save(entity);
     }
