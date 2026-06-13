@@ -14,6 +14,40 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Integer> {
 
+    @Query("SELECT BAR FROM ArticleEntity BAR " +
+            "JOIN AuthorEntity BAU ON BAR.articleAuthor.id = BAU.id " +
+            "JOIN CategoryEntity BC ON BAR.articleCategory.id = BC.id " +
+            "JOIN ImageEntity BI ON BC.blogCategoryImage.id = BI.id " +
+            "WHERE BAR.articleActive = '1' " +
+            "AND (BAR.articleTitle ILIKE %:query% " +
+            "     OR BAR.articleText ILIKE %:query% " +
+            "     OR BAR.articleSummary ILIKE %:query% " +
+            "     OR BAR.articleWebTitle ILIKE %:query% " +
+            "     OR BAU.authorName ILIKE %:query% " +
+            "     OR BC.blogCategoryName ILIKE %:query%) " +
+            "ORDER BY BAR.articleUpdateDate DESC")
+    List<ArticleEntity> searchArticles(@Param("query") String query, Pageable pageable);
+
+    @Query("SELECT COUNT(BAR) FROM ArticleEntity BAR " +
+            "JOIN AuthorEntity BAU ON BAR.articleAuthor.id = BAU.id " +
+            "JOIN CategoryEntity BC ON BAR.articleCategory.id = BC.id " +
+            "WHERE BAR.articleActive = '1' " +
+            "AND (BAR.articleTitle ILIKE %:query% " +
+            "     OR BAR.articleText ILIKE %:query% " +
+            "     OR BAR.articleSummary ILIKE %:query% " +
+            "     OR BAR.articleWebTitle ILIKE %:query% " +
+            "     OR BAU.authorName ILIKE %:query% " +
+            "     OR BC.blogCategoryName ILIKE %:query%)")
+    long countSearchArticles(@Param("query") String query);
+
+    @Query("SELECT BAR.articleWebTitle, BAR.articleTitle, BC.blogCategoryName " +
+            "FROM ArticleEntity BAR " +
+            "JOIN CategoryEntity BC ON BAR.articleCategory.id = BC.id " +
+            "WHERE BAR.articleActive = '1' " +
+            "AND (BAR.articleTitle ILIKE %:query% OR BAR.articleWebTitle ILIKE %:query%) " +
+            "ORDER BY BAR.articleRead DESC")
+    List<Object[]> findTitleSuggestions(@Param("query") String query, Pageable pageable);
+
     @Query("SELECT COUNT(b) FROM ArticleEntity b WHERE b.articleActive = '1'")
     long countActiveArticles();
 

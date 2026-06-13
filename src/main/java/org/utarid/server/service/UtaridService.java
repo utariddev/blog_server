@@ -23,9 +23,6 @@ import org.utarid.server.repository.constant.ConstantRepository;
 import org.utarid.server.repository.stats.StatsEntity;
 import org.utarid.server.repository.stats.StatsRepository;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -118,5 +115,40 @@ public class UtaridService implements IUtaridService {
         List<ArticleDTO> articleDTOList = mostReadArticles.stream().map(
                 articleEntity -> UtaridMapper.INSTANCE.articleEntityToArticleDTO(articleEntity, false)).toList();
         return new GetMostReadArticlesResponseDTO(Result.successResult(), articleDTOList);
+    }
+
+    @Override
+    public List<ArticleSuggestionDTO> getArticleSuggestions(String query, int limit) {
+        Pageable pageable = PageRequest.of(0, Math.min(limit, 10));
+        List<Object[]> results = articleRepository.findTitleSuggestions(query, pageable);
+        return results.stream()
+                .map(row -> new ArticleSuggestionDTO(
+                        (String) row[0],
+                        (String) row[1],
+                        (String) row[0],
+                        (String) row[2]
+                ))
+                .toList();
+    }
+
+    @Override
+    public SearchArticlesResponseDTO searchArticles(SearchArticlesRequestDTO requestDTO) {
+        saveStat("9-search");
+        int page = requestDTO.getIndicator();
+        int size = requestDTO.getPageSize() > 0 ? requestDTO.getPageSize() : 10;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("articleUpdateDate").descending());
+
+        List<ArticleEntity> articleEntities = articleRepository.searchArticles(requestDTO.getQuery(), pageable);
+        long totalCount = articleRepository.countSearchArticles(requestDTO.getQuery());
+
+        List<ArticleDTO> articleDTOList = articleEntities.stream()
+                .map(articleEntity -> UtaridMapper.INSTANCE.articleEntityToArticleDTO(articleEntity, false))
+                .toList();
+
+        return new SearchArticlesResponseDTO(
+                Result.successResult(),
+                articleDTOList,
+                totalCount
+        );
     }
 }

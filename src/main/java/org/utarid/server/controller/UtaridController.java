@@ -2,7 +2,12 @@ package org.utarid.server.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import org.utarid.server.dto.article.*;
+import org.utarid.server.dto.article.ArticleSuggestionDTO;
+import org.utarid.server.dto.article.SearchArticlesRequestDTO;
+import org.utarid.server.dto.article.SearchArticlesResponseDTO;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
 import org.utarid.server.dto.category.GetCategoryArticlesRequestDTO;
 import org.utarid.server.dto.category.GetCategoryArticlesResponseDTO;
@@ -63,5 +68,18 @@ public class UtaridController {
     @PostMapping("/getMostReadArticles")
     public ResponseEntity<GetMostReadArticlesResponseDTO> getMostReadArticles() {
         return ResponseEntity.ok(utaridService.getMostReadArticles());
+    }
+
+    @GetMapping("/suggest")
+    public ResponseEntity<List<ArticleSuggestionDTO>> getSuggestions(
+            @RequestParam("q") String query,
+            @RequestParam(value = "limit", defaultValue = "5") int limit
+    ) {
+        return ResponseEntity.ok(utaridService.getArticleSuggestions(query, limit));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<SearchArticlesResponseDTO> searchArticles(@RequestBody SearchArticlesRequestDTO requestDTO) {
+        return ResponseEntity.ok(utaridService.searchArticles(requestDTO));
     }
 }
