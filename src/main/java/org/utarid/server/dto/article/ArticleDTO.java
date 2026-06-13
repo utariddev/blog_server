@@ -52,9 +52,6 @@ public class ArticleDTO {
     @JsonProperty("article_author")
     private String articleAuthor;
 
-    @JsonProperty("image_path")
-    private String imagePath;
-
     @JsonProperty("article_summary")
     private String articleSummary;
 
@@ -193,14 +190,6 @@ public class ArticleDTO {
 
     public void setArticleAuthor(String articleAuthor) {
         this.articleAuthor = articleAuthor;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
     }
 
     public String getArticleSummary() {

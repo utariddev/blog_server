@@ -2,7 +2,6 @@
 build
 .idea
 *.iml
-.git
 *.md
 Dockerfile
 .dockerignore
