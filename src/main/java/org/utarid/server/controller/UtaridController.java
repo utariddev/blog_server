@@ -1,11 +1,21 @@
 package org.utarid.server.controller;
 
+import org.springframework.boot.info.BuildProperties;
+import org.springframework.boot.info.GitProperties;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import org.utarid.server.dto.article.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.utarid.server.dto.article.ArticleSuggestionDTO;
+import org.utarid.server.dto.article.GetArticleRequestDTO;
+import org.utarid.server.dto.article.GetArticleResponseDTO;
+import org.utarid.server.dto.article.GetArticlesCountResponseDTO;
+import org.utarid.server.dto.article.GetArticlesRequestDTO;
+import org.utarid.server.dto.article.GetArticlesResponseDTO;
+import org.utarid.server.dto.article.GetMostReadArticlesResponseDTO;
 import org.utarid.server.dto.article.SearchArticlesRequestDTO;
 import org.utarid.server.dto.article.SearchArticlesResponseDTO;
 import org.utarid.server.dto.category.GetCategoriesResponseDTO;
@@ -15,14 +25,24 @@ import org.utarid.server.dto.constant.GetConstantRequestDTO;
 import org.utarid.server.dto.constant.GetConstantResponseDTO;
 import org.utarid.server.service.IUtaridService;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/rest/message")
 public class UtaridController {
 
     private final IUtaridService utaridService;
+    private final BuildProperties buildProperties;
+    private final GitProperties gitProperties;
 
-    public UtaridController(IUtaridService utaridService) {
+    public UtaridController(IUtaridService utaridService,
+                            BuildProperties buildProperties,
+                            GitProperties gitProperties) {
         this.utaridService = utaridService;
+        this.buildProperties = buildProperties;
+        this.gitProperties = gitProperties;
     }
 
     @GetMapping("/testGet")
@@ -33,6 +53,14 @@ public class UtaridController {
     @PostMapping("/testPost")
     public ResponseEntity<String> testPost(@RequestBody String requestData) {
         return ResponseEntity.ok("testPost :" + requestData);
+    }
+
+    @GetMapping("/buildInfo")
+    public ResponseEntity<Map<String, Object>> buildInfo() {
+        Map<String, Object> info = new LinkedHashMap<>();
+        info.put("time", buildProperties.getTime().toString());
+        info.put("commitId", gitProperties.getShortCommitId());
+        return ResponseEntity.ok(info);
     }
 
     @PostMapping("/getCategories")
